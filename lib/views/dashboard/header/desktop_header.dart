@@ -68,7 +68,7 @@ class DesktopHeaderSection extends StatelessWidget {
                 )
               ],
             ),
-          )
+          ),
         ],
       ),
     );

@@ -21,6 +21,7 @@ class _DashboardDesktopState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
     return Scaffold(
       body: BaseView<DashboardViewModel>(
           model: DashboardViewModel(sl.get<TransactionService>()),
@@ -39,16 +40,16 @@ class _DashboardDesktopState extends State<Dashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Hi Robin,", style: AppTextStyle.title()),
+                      Text("Hi Robin,", style: AppTextStyle.title(fontSize:  size.width < 800 ? 18 : 22)),
                       Text("Here is an overview of your account activities.",
                           style: AppTextStyle.subTitle(
                               color: AppColors.appWhiteLight.withOpacity(.9))),
-                      const SizedBox(height: 40),
+                      SizedBox(height: size.width < 600 ? 30 : 40),
                       const ResponsiveLayoutBuilder(
                         mobileView: MobileHeaderSection(),
                         desktopView: DesktopHeaderSection(),
                       ),
-                      const SizedBox(height: 40),
+                      SizedBox(height: size.width < 600 ? 20 : 40),
                       DesktopBody(
                         onFilter: () {},
                       ),
