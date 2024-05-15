@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:predict_dashboard/utils/app_colors.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
 import 'package:predict_dashboard/views/dashboard/body/widget/desktop_row.dart';
+import 'package:predict_dashboard/views/dashboard/footer/footer.dart';
 
 class DesktopBody extends StatelessWidget {
   const DesktopBody({super.key});
@@ -55,6 +56,8 @@ class DesktopBody extends StatelessWidget {
               }) ,
             ],
           ),
+          const SizedBox(height: 20),
+          const Footer(isForwadActive: true,),
         ],
       ),
     );
