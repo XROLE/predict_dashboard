@@ -5,7 +5,8 @@ import 'package:predict_dashboard/views/dashboard/body/widget/desktop_row.dart';
 import 'package:predict_dashboard/views/dashboard/footer/footer.dart';
 
 class DesktopBody extends StatelessWidget {
-  const DesktopBody({super.key});
+  final Function() onFilter;
+  const DesktopBody({required this.onFilter, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +35,14 @@ class DesktopBody extends StatelessWidget {
                   border: Border.all(
                       color: AppColors.appWhiteLight.withOpacity(.2)),
                 ),
-                child: Text(
-                  "Filter",
-                  style: AppTextStyle.subTitle(),
+                child: GestureDetector(
+                  onTap: () {
+                    onFilter();
+                  },
+                  child: Text(
+                    "Filter",
+                    style: AppTextStyle.subTitle(),
+                  ),
                 ),
               ),
             ],
@@ -46,18 +52,20 @@ class DesktopBody extends StatelessWidget {
             children: [
               DesktopTableRow.defaultRow(),
               ...List.generate(5, (index) {
-                return  DesktopTableRow.row(
-                  symbol: "MINAUSDT",
-                  price: "1.5636",
-                  type: "LMT",
-                  action: "Sell",
-                  quantity: "0",
-                  date: "19 Dec, 2023");
-              }) ,
+                return DesktopTableRow.row(
+                    symbol: "MINAUSDT",
+                    price: "1.5636",
+                    type: "LMT",
+                    action: "Sell",
+                    quantity: "0",
+                    date: "19 Dec, 2023");
+              }),
             ],
           ),
           const SizedBox(height: 20),
-          const Footer(isForwadActive: true,),
+          const Footer(
+            isForwadActive: true,
+          ),
         ],
       ),
     );

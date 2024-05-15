@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:predict_dashboard/app/core/di/service_locator.dart';
 import 'package:predict_dashboard/views/dashboard/dashboard_desktop.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupServiceLocator();
   runApp(const MyApp());
 }
 
