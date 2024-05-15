@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:predict_dashboard/utils/app_colors.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
+import 'package:predict_dashboard/views/dashboard/body/widget/desktop_row.dart';
 
 class DesktopBody extends StatelessWidget {
   const DesktopBody({super.key});
@@ -8,7 +9,6 @@ class DesktopBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
       padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 30),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -42,45 +42,17 @@ class DesktopBody extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           Table(
-            children:  [
-              TableRow(
-                children:  [
-                  TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Center(child: Text('Symbol', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Center(child: Text('Price', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Align( alignment: Alignment.centerLeft,
-                    child: Text('Type', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),)))),
-                  TableCell(child: Align(
-                    alignment: Alignment.centerLeft,
-                    child:  Text('Action', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Align( alignment: Alignment.centerLeft, child: Text('Quantity', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Date', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),                
-                ],
-              ),
-              TableRow(
-                children:  [
-                  TableCell(
-                    verticalAlignment: TableCellVerticalAlignment.middle,
-                    child: Center(child: Text('Symbol', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Center(child: Text('Price', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Align( alignment: Alignment.centerLeft,
-                    child: Text('Type', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),)))),
-                  TableCell(child: Align(
-                    alignment: Alignment.centerLeft,
-                    child:  Text('Action', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Align( alignment: Alignment.centerLeft, child: Text('Quantity', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),
-                  TableCell(child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text('Date', style: AppTextStyle.medium(color: AppColors.appWhiteLight.withOpacity(.9)),))),                
-                ],
-              ),
+            children: [
+              DesktopTableRow.defaultRow(),
+              ...List.generate(5, (index) {
+                return  DesktopTableRow.row(
+                  symbol: "MINAUSDT",
+                  price: "1.5636",
+                  type: "LMT",
+                  action: "Sell",
+                  quantity: "0",
+                  date: "19 Dec, 2023");
+              }) ,
             ],
           ),
         ],

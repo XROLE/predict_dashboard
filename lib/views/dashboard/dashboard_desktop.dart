@@ -14,20 +14,23 @@ class DashboardDesktop extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: double.infinity,
+        height: double.infinity,
         color: AppColors.appBg,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Hi Robin,", style: AppTextStyle.title()),
-              Text("Here is an overview of your account activities.",
-                  style: AppTextStyle.subTitle(color: AppColors.appWhiteLight.withOpacity(.9))),
-              const SizedBox(height: 40),
-              const DesktopHeaderSection(),
-              const SizedBox(height: 40),
-              const DesktopBody(),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Hi Robin,", style: AppTextStyle.title()),
+                Text("Here is an overview of your account activities.",
+                    style: AppTextStyle.subTitle(color: AppColors.appWhiteLight.withOpacity(.9))),
+                const SizedBox(height: 40),
+                const DesktopHeaderSection(),
+                const SizedBox(height: 40),
+                const DesktopBody(),
+              ],
+            ),
           ),
         ),
       ),
