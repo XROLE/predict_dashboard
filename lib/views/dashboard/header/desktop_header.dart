@@ -18,7 +18,7 @@ class DesktopHeaderSection extends StatelessWidget {
         children: [
           Container(
             color: AppColors.appBgLight,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
