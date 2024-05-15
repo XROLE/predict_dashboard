@@ -9,6 +9,8 @@ class DesktopHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
@@ -18,7 +20,7 @@ class DesktopHeaderSection extends StatelessWidget {
         children: [
           Container(
             color: AppColors.appBgLight,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.01 , vertical: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -50,7 +52,7 @@ class DesktopHeaderSection extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+            padding:  EdgeInsets.symmetric(horizontal: size.width * 0.025, vertical: 12),
             decoration: BoxDecoration(
                 border: Border(
                     top: BorderSide(

@@ -7,23 +7,25 @@ import 'package:predict_dashboard/views/base/base_view.dart';
 import 'package:predict_dashboard/views/dashboard/body/desktop_body.dart';
 import 'package:predict_dashboard/views/dashboard/dashboard_view_model.dart';
 import 'package:predict_dashboard/views/dashboard/header/desktop_header.dart';
+import 'package:predict_dashboard/views/dashboard/header/mobile_header.dart';
+import 'package:predict_dashboard/views/widgets/responsive_layout_builder.dart';
 
-class DashboardDesktop extends StatefulWidget {
-  const DashboardDesktop({super.key});
+class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
 
   @override
-  State<DashboardDesktop> createState() => _DashboardDesktopState();
+  State<Dashboard> createState() => _DashboardDesktopState();
 }
 
-class _DashboardDesktopState extends State<DashboardDesktop> {
-
+class _DashboardDesktopState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       body: BaseView<DashboardViewModel>(
           model: DashboardViewModel(sl.get<TransactionService>()),
           onModelReady: (model) {
-             model.init();
+            // model.init();
           },
           builder: (context, model, _) {
             return Container(
@@ -32,7 +34,7 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
               color: AppColors.appBg,
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 50, vertical: 25),
+                    EdgeInsets.symmetric(horizontal: size.width * 0.04, vertical: 25),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,14 +44,13 @@ class _DashboardDesktopState extends State<DashboardDesktop> {
                           style: AppTextStyle.subTitle(
                               color: AppColors.appWhiteLight.withOpacity(.9))),
                       const SizedBox(height: 40),
-                      const DesktopHeaderSection(),
+                      const ResponsiveLayoutBuilder(
+                        mobileView: MobileHeaderSection(),
+                        desktopView: DesktopHeaderSection(),
+                      ),
                       const SizedBox(height: 40),
                       DesktopBody(
-                        onFilter: () {
-                          print("====== chosen is blessed");
-                          print("the model ===============> ${model}");
-                          model.init();
-                        },
+                        onFilter: () {},
                       ),
                     ],
                   ),
