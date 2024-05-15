@@ -8,7 +8,7 @@ class AppTextStyle {
    FontWeight? fontWeight,
   }) {
     return TextStyle(
-      fontSize: fontSize ?? 24,
+      fontSize: fontSize ?? 22,
       fontWeight: fontWeight ?? FontWeight.w600,
       color: color ?? AppColors.appWhite, 
     );
@@ -18,7 +18,7 @@ class AppTextStyle {
     Color? color,
   }) {
     return TextStyle(
-      fontSize: fontSize ?? 16,
+      fontSize: fontSize ?? 14,
       fontWeight: FontWeight.w400,
       color: color ?? AppColors.appWhite,
     );
@@ -28,7 +28,7 @@ class AppTextStyle {
     Color? color,
   }) {
     return TextStyle(
-      fontSize: fontSize ?? 14,
+      fontSize: fontSize ?? 12,
       fontWeight: FontWeight.bold,
       color: color ?? AppColors.appWhite, 
     );
@@ -39,7 +39,7 @@ class AppTextStyle {
     Color? color,
   }) {
     return TextStyle(
-      fontSize: fontSize ?? 12,
+      fontSize: fontSize ?? 11,
       fontWeight: FontWeight.bold,
       color: color ?? AppColors.appWhite, 
     );
