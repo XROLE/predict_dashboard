@@ -1,47 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:predict_dashboard/domain/models/portfolio_model.dart';
 import 'package:predict_dashboard/utils/app_colors.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
 import 'package:predict_dashboard/views/widgets/action_label.dart';
-import 'package:predict_dashboard/views/widgets/asset_widget.dart';
+import 'package:predict_dashboard/views/widgets/mobile_asset_widget.dart';
 
-class DesktopHeaderSection extends StatelessWidget {
-  final bool isFetchingData;
-  final PortfolioModel? portfolio;
-  const DesktopHeaderSection(
-      {required this.portfolio, required this.isFetchingData, super.key});
+class MobileHeaderSection extends StatelessWidget {
+  const MobileHeaderSection({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Container(
+      alignment: Alignment.centerLeft,
+      width: double.infinity,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: AppColors.appWhiteLight.withOpacity(.2)),
-      ),
+          color: AppColors.appBg,
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: AppColors.appWhiteLight.withOpacity(.1))),
       child: Column(
         children: [
           Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             color: AppColors.appBgLight,
-            padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.01, vertical: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Column(
               children: [
-                AssetWidget(
+                const MobileAssetWidget(
                   title: "Balance",
-                  value: "${portfolio?.balance}",
-                  isFetchingData: isFetchingData,
+                  value: "\$616.81",
                 ),
-                AssetWidget(
+                MobileAssetWidget(
                   title: "Profits",
-                  value: "${portfolio?.profit}",
-                  hasBorderSide: true,
-                  isFetchingData: isFetchingData,
+                  value: "\$86.03",
                   profitWidget: ActionLabel(
-                    title: "sell",
+                    title: "31%",
                     isProfit: true,
                     icon: Icon(
                       Icons.arrow_outward,
@@ -50,18 +40,16 @@ class DesktopHeaderSection extends StatelessWidget {
                     ),
                   ),
                 ),
-                AssetWidget(
+                const MobileAssetWidget(
                   title: "Assets",
-                  value: "${portfolio?.assets}",
-                  hasBorderSide: true,
-                  isFetchingData: isFetchingData,
+                  value: "12",
+                  hasBorder: false,
                 ),
               ],
             ),
           ),
-          Container(
-            padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.025, vertical: 12),
+        Container(
+            padding:  const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
             decoration: BoxDecoration(
                 border: Border(
                     top: BorderSide(
@@ -73,7 +61,7 @@ class DesktopHeaderSection extends StatelessWidget {
                 Text(
                   "This subscription expires in a month",
                   style: AppTextStyle.medium(
-                      color: AppColors.appWhiteLight.withOpacity(.7)),
+                      color: AppColors.appWhiteLight.withOpacity(.9)),
                 )
               ],
             ),

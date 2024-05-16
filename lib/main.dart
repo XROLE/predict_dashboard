@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:predict_dashboard/app/core/di/service_locator.dart';
-import 'package:predict_dashboard/views/dashboard/dashboard_desktop.dart';
+import 'package:predict_dashboard/views/dashboard/dashboard.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const DashboardDesktop(),
+      home: const Dashboard(),
     );
   }
 }
