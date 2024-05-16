@@ -134,7 +134,7 @@ class DesktopTableRow {
               child: Center(
                   child: SizedBox
                   (
-                    width: 36,
+                    width: 43,
                     child: ActionLabel(title: action,))),
             )),
         TableCell(

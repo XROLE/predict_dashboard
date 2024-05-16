@@ -4,13 +4,17 @@ import 'package:predict_dashboard/utils/app_text_style.dart';
 
 class MobileAssetWidget extends StatelessWidget {
   final String title;
-  final String value;
+  final String? value;
   final bool hasBorder;
   final Widget? profitWidget;
+  final bool isFetchingData;
+  final bool isCurrency;
 
   const MobileAssetWidget(
       {required this.title,
       required this.value,
+      required this.isCurrency,
+      required this.isFetchingData,
       this.hasBorder = true,
       this.profitWidget,
       super.key});
@@ -39,13 +43,26 @@ class MobileAssetWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                value,
-                style:
-                    AppTextStyle.title(color: AppColors.appWhite, fontSize: 16),
-              ),
-              if(profitWidget != null) const SizedBox(width: 10),
-              if (profitWidget != null) profitWidget!,
+              isFetchingData
+                  ? SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: CircularProgressIndicator(
+                        color: AppColors.appWhiteLight,
+                        strokeWidth: 1,
+                      ))
+                  : value == null
+                      ? Text(
+                          "no record found",
+                          style: AppTextStyle.caption(color: AppColors.appRed),
+                        )
+                      : Text(
+                          isCurrency ? "\$${value!}" : value!,
+                          style: AppTextStyle.title(
+                              color: AppColors.appWhite, fontSize: 16),
+                        ),
+              if (profitWidget != null) const SizedBox(width: 10),
+              if (profitWidget != null && value != null) profitWidget!,
             ],
           ),
         ],

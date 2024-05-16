@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:predict_dashboard/domain/models/portfolio_model.dart';
 import 'package:predict_dashboard/utils/app_colors.dart';
+import 'package:predict_dashboard/utils/app_helper.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
 import 'package:predict_dashboard/views/widgets/action_label.dart';
 import 'package:predict_dashboard/views/widgets/asset_widget.dart';
@@ -14,6 +15,25 @@ class DesktopHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    String? ballance;
+    String? profit;
+    String? assets;
+
+    if (portfolio?.profit != null) {
+      double calculatedProfit =
+          AppHelper.roundTo(value: portfolio!.profit, intCountAfterDecimal: 2);
+      profit = calculatedProfit.toString();
+    }
+
+    if (portfolio?.balance != null) {
+      double calculatedBallance =
+          AppHelper.roundTo(value: portfolio!.balance, intCountAfterDecimal: 2);
+      ballance = calculatedBallance.toString();
+    }
+
+    if (portfolio?.assets != null) {
+      assets = portfolio?.assets.toString();
+    }
 
     return Container(
       decoration: BoxDecoration(
@@ -32,12 +52,12 @@ class DesktopHeaderSection extends StatelessWidget {
               children: [
                 AssetWidget(
                   title: "Balance",
-                  value: "${portfolio?.balance}",
+                  value: ballance,
                   isFetchingData: isFetchingData,
                 ),
                 AssetWidget(
                   title: "Profits",
-                  value: "${portfolio?.profit}",
+                  value: profit,
                   hasBorderSide: true,
                   isFetchingData: isFetchingData,
                   profitWidget: ActionLabel(
@@ -52,9 +72,10 @@ class DesktopHeaderSection extends StatelessWidget {
                 ),
                 AssetWidget(
                   title: "Assets",
-                  value: "${portfolio?.assets}",
+                  value: assets,
                   hasBorderSide: true,
                   isFetchingData: isFetchingData,
+                  isCurrency: false,
                 ),
               ],
             ),

@@ -4,16 +4,18 @@ import 'package:predict_dashboard/utils/app_text_style.dart';
 
 class AssetWidget extends StatelessWidget {
   final String title;
-  final String value;
+  final String? value;
   final Widget? profitWidget;
   final bool hasBorderSide;
   final bool isFetchingData;
+  final bool isCurrency;
   const AssetWidget(
       {required this.title,
       required this.value,
       this.profitWidget,
       required this.isFetchingData,
       this.hasBorderSide = false,
+      this.isCurrency = true,
       super.key});
 
   @override
@@ -41,20 +43,28 @@ class AssetWidget extends StatelessWidget {
             Row(
               children: [
                 isFetchingData
-                ? SizedBox(
-                  width: 25,
-                  height: 25,
-                  child: CircularProgressIndicator(color: AppColors.appWhiteLight, strokeWidth: 1,))
-                 :Text(
-                  value,
-                  style: AppTextStyle.title(
-                      color: AppColors.appWhite,
-                      fontSize: size.width < 800 ? 16 : 22),
-                ),
-                if(!isFetchingData)
-                const SizedBox(width: 12),
-                if(!isFetchingData)
-                profitWidget ?? const SizedBox(),
+                    ? SizedBox(
+                        width: 25,
+                        height: 25,
+                        child: CircularProgressIndicator(
+                          color: AppColors.appWhiteLight,
+                          strokeWidth: 1,
+                        ))
+                    : value != null
+                        ? Text(
+                            isCurrency ? "\$$value" : value!,
+                            style: AppTextStyle.title(
+                                color: AppColors.appWhite,
+                                fontSize: size.width < 800 ? 16 : 22),
+                          )
+                        : Text(
+                            "no record found",
+                            style:
+                                AppTextStyle.caption(color: AppColors.appRed),
+                          ),
+                if (!isFetchingData) const SizedBox(width: 12),
+                if (!isFetchingData && value != null)
+                  profitWidget ?? const SizedBox(),
               ],
             ),
           ],

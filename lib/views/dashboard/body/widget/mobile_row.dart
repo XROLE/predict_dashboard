@@ -6,13 +6,13 @@ import 'package:predict_dashboard/views/widgets/action_label.dart';
 class MobileRow extends StatelessWidget {
   final String symbol;
   final String price;
-  final String action;
+  final String side;
   final String date;
   final bool hasBorderTop;
   const MobileRow({
     required this.symbol,
     required this.price,
-    required this.action,
+    required this.side,
     required this.date,
     this.hasBorderTop = false,
     super.key,
@@ -46,7 +46,7 @@ class MobileRow extends StatelessWidget {
                         color: AppColors.appWhiteLight.withOpacity(.9)),
                   ),
                   const SizedBox(height: 8),
-                  ActionLabel(title: action),
+                  ActionLabel(title: side),
                 ],
               ),
               Column(

@@ -4,7 +4,7 @@ import 'package:predict_dashboard/data/remote/transactions/transaction_service.d
 import 'package:predict_dashboard/utils/app_colors.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
 import 'package:predict_dashboard/views/base/base_view.dart';
-import 'package:predict_dashboard/views/dashboard/body/desktop_body.dart';
+import 'package:predict_dashboard/views/dashboard/body/body_section.dart';
 import 'package:predict_dashboard/views/dashboard/dashboard_view_model.dart';
 import 'package:predict_dashboard/views/dashboard/header/desktop_header.dart';
 import 'package:predict_dashboard/views/dashboard/header/mobile_header.dart';
@@ -48,13 +48,39 @@ class _DashboardDesktopState extends State<Dashboard> {
                               color: AppColors.appWhiteLight.withOpacity(.9))),
                       SizedBox(height: size.width < 600 ? 30 : 40),
                       ResponsiveLayoutBuilder(
-                        mobileView: const MobileHeaderSection(),
-                        desktopView: DesktopHeaderSection(portfolio: model.portfolio, isFetchingData: model.isLoading,),
+                        mobileView: MobileHeaderSection(
+                          isFetchingData: model.isLoading,
+                          portfolio: model.portfolio,
+                        ),
+                        desktopView: DesktopHeaderSection(
+                          portfolio: model.portfolio,
+                          isFetchingData: model.isLoading,
+                        ),
                       ),
                       SizedBox(height: size.width < 600 ? 20 : 40),
-                      DesktopBody(
-                        onFilter: () {
+                      BodySection(
+                        startIndex: model.startIndex,
+                        stopIndex: model.stopIndex,
+                        itemLength: model.orders?.length,
+                        orders: model.ordersToDisplay,
+                        isLoading: model.isLoading,
+                        onNextPageClicked: () {
+                          if (model.pageCount > model.pageToDisplay) {
+                            model.pageToDisplay++;
+                            model.paginate(
+                                val: model.orders!,
+                                pageNumber: model.pageToDisplay);
+                          }
                         },
+                        onPrevPageClicked: () {
+                          if (model.pageToDisplay > 0) {
+                            model.pageToDisplay--;
+                            model.paginate(
+                                val: model.orders!,
+                                pageNumber: model.pageToDisplay);
+                          }
+                        },
+                        onFilter: () {},
                       ),
                     ],
                   ),

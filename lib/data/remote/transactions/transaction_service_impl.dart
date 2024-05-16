@@ -29,7 +29,7 @@ class TransactionServiceImpl implements TransactionService {
   }
 
   @override
-  Future<List<OrderModel?>?> fetchOrders() async {
+  Future<List<OrderModel>?> fetchOrders() async {
     try {
       String url = Endpoints.orders;
 

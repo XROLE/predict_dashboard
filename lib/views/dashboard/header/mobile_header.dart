@@ -1,14 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:predict_dashboard/domain/models/portfolio_model.dart';
 import 'package:predict_dashboard/utils/app_colors.dart';
+import 'package:predict_dashboard/utils/app_helper.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
 import 'package:predict_dashboard/views/widgets/action_label.dart';
 import 'package:predict_dashboard/views/widgets/mobile_asset_widget.dart';
 
 class MobileHeaderSection extends StatelessWidget {
-  const MobileHeaderSection({super.key});
+  final bool isFetchingData;
+  final PortfolioModel? portfolio;
+  const MobileHeaderSection({
+    required this.isFetchingData,
+    this.portfolio,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
+     String? ballance;
+    String? profit;
+    String? assets;
+
+    if (portfolio?.profit != null) {
+      double calculatedProfit =
+          AppHelper.roundTo(value: portfolio!.profit, intCountAfterDecimal: 2);
+      profit = calculatedProfit.toString();
+    }
+
+    if (portfolio?.balance != null) {
+      double calculatedBallance =
+          AppHelper.roundTo(value: portfolio!.balance, intCountAfterDecimal: 2);
+      ballance = calculatedBallance.toString();
+    }
+
+    if (portfolio?.assets != null) {
+      assets = portfolio?.assets.toString();
+    }
+
     return Container(
       alignment: Alignment.centerLeft,
       width: double.infinity,
@@ -23,13 +51,17 @@ class MobileHeaderSection extends StatelessWidget {
             color: AppColors.appBgLight,
             child: Column(
               children: [
-                const MobileAssetWidget(
+                 MobileAssetWidget(
                   title: "Balance",
-                  value: "\$616.81",
+                  value: ballance,
+                  isCurrency: true,
+                  isFetchingData: isFetchingData,
                 ),
                 MobileAssetWidget(
                   title: "Profits",
-                  value: "\$86.03",
+                  value: profit,
+                  isFetchingData: isFetchingData,
+                  isCurrency: true,
                   profitWidget: ActionLabel(
                     title: "31%",
                     isProfit: true,
@@ -40,16 +72,18 @@ class MobileHeaderSection extends StatelessWidget {
                     ),
                   ),
                 ),
-                const MobileAssetWidget(
+                MobileAssetWidget(
                   title: "Assets",
-                  value: "12",
+                  value: assets,
+                  isFetchingData: isFetchingData,
                   hasBorder: false,
+                  isCurrency: false,
                 ),
               ],
             ),
           ),
-        Container(
-            padding:  const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
             decoration: BoxDecoration(
                 border: Border(
                     top: BorderSide(
