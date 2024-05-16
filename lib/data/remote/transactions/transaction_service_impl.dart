@@ -6,13 +6,14 @@ import 'package:predict_dashboard/data/remote/transactions/transaction_service.d
 import 'package:predict_dashboard/domain/models/order_model.dart';
 import 'package:predict_dashboard/domain/models/portfolio_model.dart';
 import 'package:predict_dashboard/utils/app_logger.dart';
+import 'package:predict_dashboard/utils/constants.dart';
 
 class TransactionServiceImpl implements TransactionService {
   final HttpClient client;
 
   TransactionServiceImpl(this.client);
   @override
-  Future<PortfolioModel?> fetchPortfolio() async {
+  Future<PortfolioModel?> fetchPortfolio(Function(String e) onError) async {
     try {
       String url = Endpoints.portfolio;
 
@@ -20,16 +21,16 @@ class TransactionServiceImpl implements TransactionService {
 
       return PortfolioModel.fromJson(res?.data["data"]["portfolio"]);
     } on Failure catch (e) {
-      AppLogger.log("Error =======> $e");
+      onError(e.errorMessage);
       return null;
     } catch (e) {
-      AppLogger.log("Error =======> $e");
+      onError(Constants.genericErroMessage);
       return null;
     }
   }
 
   @override
-  Future<List<OrderModel>?> fetchOrders() async {
+  Future<List<OrderModel>?> fetchOrders(Function(String e) onError) async {
     try {
       String url = Endpoints.orders;
 
@@ -41,10 +42,10 @@ class TransactionServiceImpl implements TransactionService {
 
       return orders;
     } on Failure catch (e) {
-      AppLogger.log("Error =======> $e");
+       onError(e.errorMessage);
       return null;
     } catch (e) {
-      AppLogger.log("Error =======> $e");
+       onError(Constants.genericErroMessage);
       return null;
     }
   }

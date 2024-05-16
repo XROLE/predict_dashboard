@@ -21,9 +21,11 @@ class AssetWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isTablet = size.width < 700 ? true : false;
+
     return Expanded(
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: size.width * .05),
+        padding: EdgeInsets.symmetric(horizontal: isTablet ? size.width *.03 : size.width *.05),
         decoration: BoxDecoration(
             border: hasBorderSide
                 ? Border(

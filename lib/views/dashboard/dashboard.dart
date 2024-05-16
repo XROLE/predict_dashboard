@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:predict_dashboard/app/core/di/service_locator.dart';
 import 'package:predict_dashboard/data/remote/transactions/transaction_service.dart';
+import 'package:predict_dashboard/domain/models/order_model.dart';
 import 'package:predict_dashboard/utils/app_colors.dart';
+import 'package:predict_dashboard/utils/app_flushbar.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
+import 'package:predict_dashboard/utils/constants.dart';
 import 'package:predict_dashboard/views/base/base_view.dart';
 import 'package:predict_dashboard/views/dashboard/body/body_section.dart';
 import 'package:predict_dashboard/views/dashboard/dashboard_view_model.dart';
@@ -26,7 +29,13 @@ class _DashboardDesktopState extends State<Dashboard> {
       body: BaseView<DashboardViewModel>(
           model: DashboardViewModel(sl.get<TransactionService>()),
           onModelReady: (model) {
-            model.init();
+            model.init(
+              onOrdersFetchingError: (errorMessage) => AppFlushBar.showError(
+                  context: context, message: errorMessage),
+              onPortfolioFetchingError: (errorMessage) {
+                // This is empty to avoid double toast showing on user screen
+              },
+            );
           },
           builder: (context, model, _) {
             return Container(
@@ -63,7 +72,23 @@ class _DashboardDesktopState extends State<Dashboard> {
                         stopIndex: model.stopIndex,
                         itemLength: model.orders?.length,
                         orders: model.ordersToDisplay,
+                        allOrders: model.orders,
                         isLoading: model.isLoading,
+                        onStartDateSelected: (e) {
+                          model.filterStartDate = e;
+                        },
+                        onEndDateSelected: (e) {
+                          model.filterEndDate = e;
+                        },
+                        onPriceChange: (e) {
+                          double? price = double.tryParse(e);
+                          if (price != null) {
+                            model.filterPrice = price;
+                          }
+                        },
+                        onSelect: (e) {
+                          model.filterSymbol = e.symbol;
+                        },
                         onNextPageClicked: () {
                           if (model.pageCount > model.pageToDisplay) {
                             model.pageToDisplay++;
@@ -80,7 +105,46 @@ class _DashboardDesktopState extends State<Dashboard> {
                                 pageNumber: model.pageToDisplay);
                           }
                         },
-                        onFilter: () {},
+                        onFilter: () {
+                          String? filterSymbol = model.filterSymbol;
+                          double? filterPrice = model.filterPrice;
+                          DateTime? filterStartDate = model.filterStartDate;
+                          DateTime? filterEndDate = model.filterEndDate;
+
+                          if (filterSymbol == null &&
+                              filterPrice == null &&
+                              filterStartDate == null &&
+                              filterEndDate == null) {
+                            AppFlushBar.showError(
+                                message: Constants.emptySearchQueryError,
+                                context: context);
+                            return;
+                          }
+
+                          if (filterStartDate != null &&
+                              filterEndDate != null) {
+                            if (filterStartDate.isAfter(filterEndDate)) {
+                              AppFlushBar.showError(
+                                  message: Constants.startDateGreaterError,
+                                  context: context);
+                              return;
+                            }
+                          }
+
+                          List<OrderModel>? filteredOrder = model.filterOrders(
+                            symbol: filterSymbol,
+                            price: filterPrice,
+                            startDate: filterStartDate,
+                            endDate: filterEndDate,
+                            allOrder: model.orders,
+                          );
+
+                          if (filteredOrder != null) {
+                            model.ordersToDisplay = filteredOrder;
+                          }
+                          model.clearFilterQuery();
+                          Navigator.pop(context);
+                        },
                       ),
                     ],
                   ),

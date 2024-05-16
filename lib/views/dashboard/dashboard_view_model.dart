@@ -7,6 +7,11 @@ class DashboardViewModel extends BaseViewModel {
   final TransactionService transactionService;
   DashboardViewModel(this.transactionService);
 
+  String? filterSymbol;
+  double? filterPrice;
+  DateTime? filterStartDate;
+  DateTime? filterEndDate;
+
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   set isLoading(bool val) {
@@ -63,10 +68,15 @@ class DashboardViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  init() async {
+  init({
+    required Function(String e) onPortfolioFetchingError,
+    required Function(String e) onOrdersFetchingError,
+  }) async {
     isLoading = true;
-    PortfolioModel? portfolioModel = await transactionService.fetchPortfolio();
-    List<OrderModel>? orderList = await transactionService.fetchOrders();
+    PortfolioModel? portfolioModel =
+        await transactionService.fetchPortfolio(onPortfolioFetchingError);
+    List<OrderModel>? orderList =
+        await transactionService.fetchOrders(onOrdersFetchingError);
     isLoading = false;
 
     if (portfolioModel != null) {
@@ -98,5 +108,44 @@ class DashboardViewModel extends BaseViewModel {
       List<OrderModel> newPageOrder = val.sublist(start, stop);
       ordersToDisplay = newPageOrder;
     }
+  }
+
+  void clearFilterQuery() {
+    filterSymbol = null;
+    filterPrice = null;
+    filterStartDate = null;
+    filterEndDate = null;
+
+    notifyListeners();
+  }
+
+  List<OrderModel>? filterOrders(
+      {required String? symbol,
+      required double? price,
+      required DateTime? startDate,
+      required DateTime? endDate,
+      required List<OrderModel>? allOrder}) {
+    List<OrderModel>? filteredOrder = allOrder;
+
+    if (symbol == null &&
+        price == null &&
+        startDate == null &&
+        endDate == null) {
+      return null;
+    }
+
+    if (filteredOrder != null && filteredOrder.isNotEmpty) {
+      if (symbol != null) {
+        filteredOrder =
+            filteredOrder.where((el) => el?.symbol == symbol).toList();
+      }
+
+      if (price != null) {
+        filteredOrder =
+            filteredOrder.where((el) => el?.price == price).toList();
+      }
+    }
+
+    return filteredOrder;
   }
 }
