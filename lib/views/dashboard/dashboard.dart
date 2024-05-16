@@ -26,7 +26,7 @@ class _DashboardDesktopState extends State<Dashboard> {
       body: BaseView<DashboardViewModel>(
           model: DashboardViewModel(sl.get<TransactionService>()),
           onModelReady: (model) {
-            // model.init();
+            model.init();
           },
           builder: (context, model, _) {
             return Container(
@@ -34,24 +34,27 @@ class _DashboardDesktopState extends State<Dashboard> {
               height: double.infinity,
               color: AppColors.appBg,
               child: Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: size.width * 0.04, vertical: 25),
+                padding: EdgeInsets.symmetric(
+                    horizontal: size.width * 0.04, vertical: 25),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Hi Robin,", style: AppTextStyle.title(fontSize:  size.width < 800 ? 18 : 22)),
+                      Text("Hi Robin,",
+                          style: AppTextStyle.title(
+                              fontSize: size.width < 800 ? 18 : 22)),
                       Text("Here is an overview of your account activities.",
                           style: AppTextStyle.subTitle(
                               color: AppColors.appWhiteLight.withOpacity(.9))),
                       SizedBox(height: size.width < 600 ? 30 : 40),
-                      const ResponsiveLayoutBuilder(
-                        mobileView: MobileHeaderSection(),
-                        desktopView: DesktopHeaderSection(),
+                      ResponsiveLayoutBuilder(
+                        mobileView: const MobileHeaderSection(),
+                        desktopView: DesktopHeaderSection(portfolio: model.portfolio, isFetchingData: model.isLoading,),
                       ),
                       SizedBox(height: size.width < 600 ? 20 : 40),
                       DesktopBody(
-                        onFilter: () {},
+                        onFilter: () {
+                        },
                       ),
                     ],
                   ),

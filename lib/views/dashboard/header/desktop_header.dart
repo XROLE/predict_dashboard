@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:predict_dashboard/domain/models/portfolio_model.dart';
 import 'package:predict_dashboard/utils/app_colors.dart';
 import 'package:predict_dashboard/utils/app_text_style.dart';
 import 'package:predict_dashboard/views/widgets/action_label.dart';
 import 'package:predict_dashboard/views/widgets/asset_widget.dart';
 
 class DesktopHeaderSection extends StatelessWidget {
-  const DesktopHeaderSection({super.key});
+  final bool isFetchingData;
+  final PortfolioModel? portfolio;
+  const DesktopHeaderSection(
+      {required this.portfolio, required this.isFetchingData, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +24,24 @@ class DesktopHeaderSection extends StatelessWidget {
         children: [
           Container(
             color: AppColors.appBgLight,
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.01 , vertical: 25),
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.01, vertical: 25),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const AssetWidget(
+                AssetWidget(
                   title: "Balance",
-                  value: "\$616.81",
+                  value: "${portfolio?.balance}",
+                  isFetchingData: isFetchingData,
                 ),
                 AssetWidget(
                   title: "Profits",
-                  value: "\$86.03",
+                  value: "${portfolio?.profit}",
                   hasBorderSide: true,
+                  isFetchingData: isFetchingData,
                   profitWidget: ActionLabel(
-                    title: "31%",
+                    title: "sell",
                     isProfit: true,
                     icon: Icon(
                       Icons.arrow_outward,
@@ -43,16 +50,18 @@ class DesktopHeaderSection extends StatelessWidget {
                     ),
                   ),
                 ),
-                const AssetWidget(
+                AssetWidget(
                   title: "Assets",
-                  value: "12",
+                  value: "${portfolio?.assets}",
                   hasBorderSide: true,
+                  isFetchingData: isFetchingData,
                 ),
               ],
             ),
           ),
           Container(
-            padding:  EdgeInsets.symmetric(horizontal: size.width * 0.025, vertical: 12),
+            padding: EdgeInsets.symmetric(
+                horizontal: size.width * 0.025, vertical: 12),
             decoration: BoxDecoration(
                 border: Border(
                     top: BorderSide(

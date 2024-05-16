@@ -17,11 +17,8 @@ class TransactionServiceImpl implements TransactionService {
       String url = Endpoints.portfolio;
 
       final Response? res = await client.get(url);
-      AppLogger.log("Portfolios ==================> $res");
-      AppLogger.log("res ==================> ${res?.data}");
 
-      return PortfolioModel(
-          balance: 300.0, profit: 300.0, profitPercentage: 300, assets: 300);
+      return PortfolioModel.fromJson(res?.data["data"]["portfolio"]);
     } on Failure catch (e) {
       AppLogger.log("Error =======> $e");
       return null;
@@ -34,13 +31,15 @@ class TransactionServiceImpl implements TransactionService {
   @override
   Future<List<OrderModel?>?> fetchOrders() async {
     try {
-      String url = Endpoints.portfolio;
+      String url = Endpoints.orders;
 
       final Response? res = await client.get(url);
-      AppLogger.log("Portfolios ==================> $res");
-      AppLogger.log("res ==================> ${res?.data}");
+      List orderList = res?.data["data"]["orders"];
+      List<OrderModel> orders = orderList.map((el) {
+        return OrderModel.fromJson(el);
+      }).toList();
 
-      return [OrderModel(symbol: "symbol", type: "type", side: "side", quantity: 33.0, creationTime: 600, price: 900)];
+      return orders;
     } on Failure catch (e) {
       AppLogger.log("Error =======> $e");
       return null;

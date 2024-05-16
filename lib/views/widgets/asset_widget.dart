@@ -7,10 +7,12 @@ class AssetWidget extends StatelessWidget {
   final String value;
   final Widget? profitWidget;
   final bool hasBorderSide;
+  final bool isFetchingData;
   const AssetWidget(
       {required this.title,
       required this.value,
       this.profitWidget,
+      required this.isFetchingData,
       this.hasBorderSide = false,
       super.key});
 
@@ -32,17 +34,26 @@ class AssetWidget extends StatelessWidget {
             Text(
               title,
               style: AppTextStyle.subTitle(
-                fontSize: size.width < 800 ? 12 : 14,
+                  fontSize: size.width < 800 ? 12 : 14,
                   color: AppColors.appWhiteLight.withOpacity(.7)),
             ),
             const SizedBox(height: 10),
             Row(
               children: [
-                Text(
+                isFetchingData
+                ? SizedBox(
+                  width: 25,
+                  height: 25,
+                  child: CircularProgressIndicator(color: AppColors.appWhiteLight, strokeWidth: 1,))
+                 :Text(
                   value,
-                  style: AppTextStyle.title(color: AppColors.appWhite, fontSize: size.width < 800 ? 16 : 22),
+                  style: AppTextStyle.title(
+                      color: AppColors.appWhite,
+                      fontSize: size.width < 800 ? 16 : 22),
                 ),
+                if(!isFetchingData)
                 const SizedBox(width: 12),
+                if(!isFetchingData)
                 profitWidget ?? const SizedBox(),
               ],
             ),
